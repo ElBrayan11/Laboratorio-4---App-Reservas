@@ -1,0 +1,19 @@
+# Python
+App-reservas/.venv/
+App-reservas/__pycache__/
+App-reservas/**/__pycache__/
+*.pyc
+
+# Node
+Front-App-reservas/node_modules/
+Front-App-reservas/dist/
+
+# Entorno
+.env
+
+# Scripts auxiliares
+take_screenshots.py
+
+# OS
+.DS_Store
+Thumbs.db

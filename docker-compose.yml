@@ -1,0 +1,56 @@
+services:
+
+  db:
+    image: postgres:15
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-serviciosweb}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./App-reservas/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - appnet
+    restart: unless-stopped
+
+  backend:
+    build: ./App-reservas
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-serviciosweb}
+      SECRET_KEY: ${SECRET_KEY:-CAMBIA_ESTA_CLAVE_POR_UNA_SEGRETA_EN_PRODUCCION}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@itm.edu.co}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+      ADMIN_NAME: ${ADMIN_NAME:-Administrador}
+    ports:
+      - '8000:8000'
+    networks:
+      - appnet
+    restart: unless-stopped
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  frontend:
+    build: ./Front-App-reservas
+    depends_on:
+      - backend
+    ports:
+      - '80:80'
+    networks:
+      - appnet
+    restart: unless-stopped
+
+volumes:
+  db-data:
+
+networks:
+  appnet:
+    driver: bridge
