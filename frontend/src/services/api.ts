@@ -1,6 +1,15 @@
 import type { Espacio, LoginResponse, Reserva, Usuario } from '../types/api';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+// VITE_API_URL="" en Docker → rutas relativas /api (nginx proxy). En dev, proxy de Vite.
+function resolveApiUrl(): string {
+  const env = import.meta.env.VITE_API_URL;
+  if (env === '') return '';
+  if (typeof env === 'string' && env.length > 0) return env.replace(/\/$/, '');
+  if (import.meta.env.DEV) return '';
+  return 'http://localhost:8000';
+}
+
+const API_URL = resolveApiUrl();
 const TOKEN_KEY = 'reservas_token';
 
 export class ApiError extends Error {
