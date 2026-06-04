@@ -19,9 +19,9 @@ Proporcionar una plataforma que permita a usuarios reservar espacios de forma au
 
 | Nombre | Rol en el proyecto |
 |--------|-------------------|
-| *(Integrante 1)* | Backend / Base de datos |
-| *(Integrante 2)* | Frontend / Docker |
-| *(Integrante 3)* | Documentación / Testing |
+| Brayan David Mejía Serna | Backend / Base de datos |
+| Ivan Andres Blanco Velasquez | Frontend |
+| Santiago Orrego Castaño| Docker /  Documentación / Testing |
 
 > Verificar commits individuales en el historial de Git del repositorio.
 
@@ -70,7 +70,7 @@ La institución no contaba con un sistema centralizado para gestionar la reserva
 |-----|--------|-----------|
 | Administrador | `admin@itm.edu.co` | `admin123` |
 
-> ⚠️ Cambiar en producción mediante variables de entorno en `.env`.
+> Cambiar en producción mediante variables de entorno en `.env`.
 
 ---
 
