@@ -1,0 +1,22 @@
+from pydantic import BaseModel
+from datetime import date, time
+
+class ReservaCreate(BaseModel):
+    id_espacio: int
+    fecha: date
+    hora_inicio: time
+    hora_fin: time
+    cantidad_asistentes: int
+
+class ReservaOut(BaseModel):
+    id_reserva: int
+    id_usuario: int
+    id_espacio: int
+    fecha: date
+    hora_inicio: time
+    hora_fin: time
+    cantidad_asistentes: int
+    estado: str
+
+    class Config:
+        orm_mode = True
